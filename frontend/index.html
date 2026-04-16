@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microblog TADS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="login-screen" class="screen">
+    <div class="login-box">
+        <div class="brand">
+            <span class="brand-icon">📋</span>
+            <h1>Microblog</h1>
+            <p class="brand-sub">TADS · IFSP Campinas</p>
+        </div>
+        <div class="form-group">
+            <label for="username">Usuário</label>
+            <input type="text" id="username" placeholder="seu.usuario" autocomplete="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" placeholder="••••••••" autocomplete="current-password">
+        </div>
+        <button class="btn btn-primary btn-block" onclick="login()">Entrar</button>
+        <p id="login-error" class="error-msg"></p>
+    </div>
+</div>
+
+<div id="app-screen" class="screen" style="display:none;">
+    <nav class="navbar">
+        <div class="nav-brand">📋 Microblog</div>
+        <div class="nav-user">
+            <span class="badge" id="nav-role"></span>
+            <span id="nav-username"></span>
+            <span class="nav-dept" id="nav-dept"></span>
+            <button class="btn btn-ghost btn-sm" onclick="logout()">Sair</button>
+        </div>
+    </nav>
+
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="card">
+                <h3>Nova postagem</h3>
+                <textarea id="post-content" placeholder="O que você está pensando?" rows="4"></textarea>
+                <button class="btn btn-primary btn-block" onclick="createPost()">Publicar</button>
+            </div>
+        </aside>
+
+        <main class="feed">
+            <div class="feed-header">
+                <h2 id="feed-title">Todos os posts</h2>
+                <button class="btn btn-ghost btn-sm" onclick="loadPosts()">↻ Atualizar</button>
+            </div>
+            <div id="posts-list">
+                <p class="empty-msg">Carregando posts...</p>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
