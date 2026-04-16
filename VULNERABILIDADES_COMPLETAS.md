@@ -861,5 +861,18 @@ Entregue este relatório ao professor.
 
 ---
 
+## 📝 Respostas às perguntas de segurança
+
+### a) Por que confiar no front-end para controlar o acesso é perigoso?
+Confiar no front-end para controlar o acesso é perigoso porque o código do navegador é controlado pelo usuário e pode ser facilmente alterado ou ignorado. No projeto, o frontend apenas renderiza botões e chama endpoints como `/api/posts/:id` ou `/api/usuarios` com o token, mas o backend não faz validações suficientes de autorização. Por exemplo, qualquer usuário autenticado pode chamar diretamente `PUT /api/posts/123` ou `DELETE /api/posts/123` para editar/excluir um post de outro departamento, mesmo que o UI só mostre esses botões para o autor. O cliente não é uma âncora de segurança; ele pode ser manipulado com console, proxy ou Postman, então todas as regras de acesso devem existir no servidor.
+
+### b) Estratégia de longo prazo para evitar que essas vulnerabilidades voltem
+A estratégia de longo prazo deve incluir autorização centralizada, testes automatizados de segurança, revisão de código e integração no pipeline CI/CD. Defina políticas de acesso em um módulo de autorização reutilizável, use bibliotecas como CASL ou accesscontrol para modelar permissões de forma declarativa e evite lógica dispersa em cada rota. Adicione testes de segurança que verifiquem cenários como: usuário comum não pode promover outro para ADMIN, não pode editar posts de outro departamento e não pode alterar `userId` ou `departmentId`. Use revisão de código com checklist de segurança para endpoints sensíveis e integre esses testes no CI/CD para que qualquer PR que quebre autorização falhe automaticamente. Assim a proteção é contínua, audível e não fica dependente de boas intenções do desenvolvedor.
+
+### c) Como projetar o sistema desde o início para isolamento por departamento e autorização granular
+Desde o início, a autorização deve viver no backend em camadas claras: autenticação, políticas de autorização e validação de entrada. Crie um middleware de autorização para verificar `req.user` e funções como `canViewPost(user, post)`, `canEditPost(user, post)` e `canManageUsers(user)` em um módulo separado. A lógica deve ser testada com unit tests das regras e integration tests de API que simulam usuários de diferentes departamentos e roles. Documente no README ou em `docs/authorization.md` a arquitetura de autorização, as roles existentes, as políticas de departamento e o fluxo de decisão. Isso ajuda novos desenvolvedores a entender que o servidor é responsável pelo isolamento, e torna o código fácil de manter e auditar.
+
+---
+
 **Relatório Gerado:** 15 de Abril de 2026
 **Total de Vulnerabilidades:** 15 (8 Críticas, 5 Altas, 2 Médias)
